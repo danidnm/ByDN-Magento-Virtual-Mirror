@@ -20,7 +20,30 @@ define(['jquery', 'jquery/ui'], function($) {
         },
 
         execute: function() {
-            alert('¡Has pulsado el botón y llamado al método showAlert()!');
+            var self = this;
+            
+            $.ajax({
+                url: self.options.generateImageEndpoint,
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: function() {
+                    $('body').trigger('processStart');
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log('Success:', response);
+                    } else {
+
+                        console.error('Error:', response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Request failed:', error);
+                },
+                complete: function() {
+                    $('body').trigger('processStop');
+                }
+            });
         }
     });
 
