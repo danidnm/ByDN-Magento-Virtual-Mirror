@@ -111,19 +111,53 @@ class Api extends \Magento\Framework\Model\AbstractModel
     /**
      * Returns the payload for the Gemini API request.
      */
+    /**
+     * Gets base64 encoded content and mime type from an image file
+     */
+    private function getImageData(string $imagePath): array
+    {
+        $imageData = file_get_contents($imagePath);
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $imagePath);
+        finfo_close($finfo);
+        
+        return [
+            'data' => base64_encode($imageData),
+            'mimeType' => $mimeType
+        ];
+    }
+
     private function getPayload()
     {
+        // Get image data
+        $image1 = $this->getImageData('/Users/danielnavarro/Downloads/dani.png');
+        $image2 = $this->getImageData('/Users/danielnavarro/Downloads/camiseta-2.png');
+
         return [
             'contents' => [
                 [
                     'role' => 'user',
                     'parts' => [
-                        ['text' => 'Design a custom birthday card for a friend who loves space and cats.'],
+                        [
+                            'text' => 'Make the guy in the first image to wear the t-shirt on the second.'
+                        ],
+                        [
+                            'inlineData' => [
+                                'mimeType' => $image1['mimeType'],
+                                'data' => $image1['data']
+                            ]
+                        ],
+                        [
+                            'inlineData' => [
+                                'mimeType' => $image2['mimeType'],
+                                'data' => $image2['data']
+                            ]
+                        ]
                     ],
                 ],
             ],
             'generationConfig' => [
-                'responseModalities' => ['IMAGE']
+                'responseModalities' => ['IMAGE', 'TEXT'],
             ] 
         ];
     }
