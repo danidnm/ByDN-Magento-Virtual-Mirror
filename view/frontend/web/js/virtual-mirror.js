@@ -5,7 +5,8 @@ define(['jquery', 'jquery/ui'], function($) {
 
         // Default options
         options: {
-            buttonSelector: ''  // selector that triggers the event
+            buttonSelector: '',  // selector that triggers the event
+            generateImageEndpoint: '' // endpoint to generate the image
         },
 
         _create: function() {

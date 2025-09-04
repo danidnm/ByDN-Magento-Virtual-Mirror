@@ -3,10 +3,12 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="product.info.addtocart.additional">
-            <block class="Magento\Framework\View\Element\Template"
+            <block class="Bydn\virtualMirror\Block\VirtualMirror"
                    name="product.info.addtocart.additional.virtual.mirror"
                    template="Bydn_VirtualMirror::virtual_mirror.phtml"
-                   after="-"/>
+                   ifconfig="bydn_virtualmirror/general/enable"
+                   after="-"
+                    />
         </referenceBlock>
     </body>
 </page>

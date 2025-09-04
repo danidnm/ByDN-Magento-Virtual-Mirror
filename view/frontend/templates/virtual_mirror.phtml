@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \Bydn\VirtualMirror\Block\VirtualMirror $block
+ */
+?>
 <div id="virtual-mirror-anchor" class="bydn-virtual-mirror">
     <button type="button" id="call-mirror-method" class="action primary tocart">
         <span>Try on me</span>
@@ -8,6 +13,7 @@
         "#virtual-mirror-anchor": {
             "virtualMirrorProductAlert": {
                 "buttonSelector": "#call-mirror-method"
+                "generateImageEndpoint": "<?php echo $block->getGenerateImageEndpoint(); ?>"
             }
         }
     }
