@@ -60,18 +60,60 @@ class Api extends \Magento\Framework\Model\AbstractModel
     */
     function generate(): void
     {
-        // Get API Key
+        // Model to be used and api key
+        $model = 'gemini-2.5-flash-image-preview';
         $apiKey = $this->virtualMirrorConfig->getApiKey();
         if (!$apiKey) {
             throw new \Magento\Framework\Exception\LocalizedException("Error: GEMINI_API_KEY not set.");
         }
 
-        // Setup model
-        $model = 'gemini-2.5-flash-image-preview';
+        // Setup URL
         $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}";
 
-        // Payload
-        $payload = [
+        // Make the call
+        try {
+            $response = $this->makeCall(
+                $url, 
+                $this->getPayload()
+            );
+        } catch (\JsonException $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('Invalid JSON response from API'));
+        }
+
+        // Process the response
+        if (isset($response['candidates'][0]['content']['parts'])) {
+            foreach ($response['candidates'][0]['content']['parts'] as $part) {
+                
+                // Process image part. Discard the text part.
+                if (isset($part['inlineData']['data'])) {
+                    $inlineData = $part['inlineData'];
+                    $dataBuffer = base64_decode($inlineData['data']);
+                    $fileExtension = $this->mimeTypeToExtension($inlineData['mimeType']);
+                    
+                    // Get media directory
+                    $mediaDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
+                    
+                    // Create virtualmirror directory if it doesn't exist
+                    $relativePath = 'virtualmirror';
+                    $mediaDirectory->create($relativePath);
+                    
+                    // Generate random unique filename
+                    $fileName = uniqid('img_', true) . $fileExtension;
+                    $mediaDirectory->writeFile(
+                        $relativePath . '/' . $fileName,
+                        $dataBuffer
+                    );
+                } 
+            }
+        }
+    }
+
+    /**
+     * Returns the payload for the Gemini API request.
+     */
+    private function getPayload()
+    {
+        return [
             'contents' => [
                 [
                     'role' => 'user',
@@ -84,7 +126,13 @@ class Api extends \Magento\Framework\Model\AbstractModel
                 'responseModalities' => ['IMAGE']
             ] 
         ];
+    }
 
+    /**
+     * Makes a cURL POST request to the specified URL with the given payload and returns the decoded JSON response.
+     */
+    private function makeCall($url, $payload)
+    {
         // cURL request
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -101,44 +149,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
         curl_close($ch);
 
         // Decode the response
-        try {
-            $dataReturned = json_decode($response, true);
-        } catch (\JsonException $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('Invalid JSON response from API'));
-        }
-
-        // Data returned should be an array
-        if (!is_array($dataReturned)) {
-            $dataReturned = [$dataReturned];
-        }
-
-        // Process the response
-        if (isset($dataReturned['candidates'][0]['content']['parts'])) {
-            foreach ($dataReturned['candidates'][0]['content']['parts'] as $part) {
-                
-                // Process image part. Discard the text part.
-                if (isset($part['inlineData']['data'])) {
-                    $inlineData = $part['inlineData'];
-                    $dataBuffer = base64_decode($inlineData['data']);
-                    $fileExtension = $this->mimeTypeToExtension($inlineData['mimeType']);
-                    
-                    // Get media directory
-                    $mediaDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
-                    
-                    // Create virtualmirror directory if it doesn't exist
-                    $relativePath = 'virtualmirror';
-                    $mediaDirectory->create($relativePath);
-                    
-                    // Save file
-                    $fileName = "generated_image_{$this->fileIndex}{$fileExtension}";
-                    $mediaDirectory->writeFile(
-                        $relativePath . '/' . $fileName,
-                        $dataBuffer
-                    );
-                    $this->fileIndex++;
-                } 
-            }
-        }
+        return json_decode($response, true);
     }
 
     /**
