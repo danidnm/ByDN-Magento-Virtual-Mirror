@@ -67,7 +67,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
         $model = 'gemini-2.5-flash-image-preview';
         $apiKey = $this->virtualMirrorConfig->getApiKey();
         if (!$apiKey) {
-            throw new \Magento\Framework\Exception\LocalizedException("Error: GEMINI_API_KEY not set.");
+            throw new \Magento\Framework\Exception\LocalizedException(__("Error: GEMINI_API_KEY not set."));
         }
 
         // Setup URL
@@ -124,7 +124,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
         $productImage = $this->getImageData($productImage);
         //$customerImage = $this->getImageData('/Users/danielnavarro/Downloads/dani.png');
         //$productImage = $this->getImageData('/Users/danielnavarro/Downloads/camiseta-2.png');
-        $productImage = $this->getImageData("/Users/danielnavarro/Sites/magento248/src/pub/media/catalog/product/m/h/mh04-green_main_1.png");
+        //$productImage = $this->getImageData("/Users/danielnavarro/Sites/magento248/src/pub/media/catalog/product/m/h/mh04-green_main_1.png");
 
         return [
             'contents' => [
@@ -171,7 +171,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
         // Exec the request
         $response = curl_exec($ch);
         if (curl_errno($ch)) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('cURL Error: ') . curl_error($ch));
+            throw new \Magento\Framework\Exception\LocalizedException(__('cURL Error: %1', curl_error($ch)));
         }
         curl_close($ch);
 

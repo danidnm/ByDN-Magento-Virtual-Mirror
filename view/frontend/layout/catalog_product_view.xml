@@ -7,7 +7,7 @@
                    name="product.info.addtocart.additional.virtual.mirror"
                    template="Bydn_VirtualMirror::virtual_mirror.phtml"
                    ifconfig="bydn_virtualmirror/general/enable"
-                   after="-"
+                   before="-"
                     />
         </referenceBlock>
     </body>
