@@ -14,6 +14,26 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
      * @var \Magento\Framework\Controller\Result\JsonFactory
      */
     private \Magento\Framework\Controller\Result\JsonFactory $jsonFactory;
+    
+    /**
+     * @var \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig
+     */
+    private \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig;
+
+    /**
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
+     */
+    protected \Magento\Catalog\Api\ProductRepositoryInterface $productRepository;
+
+    /**
+     * @var \Magento\Framework\Filesystem\DirectoryList
+     */
+    private \Magento\Framework\Filesystem\DirectoryList $directoryList;
+
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    private \Magento\Store\Model\StoreManagerInterface $storeManager;
 
     /**
      * @var \Bydn\VirtualMirror\Model\Gemini\Api
@@ -23,15 +43,27 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\Controller\Result\JsonFactory $jsonFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
+     * @param \Magento\Framework\Filesystem\DirectoryList $directoryList
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Bydn\VirtualMirror\Helper\Config $config
      * @param \Bydn\VirtualMirror\Model\Gemini\Api $gemini
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\Controller\Result\JsonFactory $jsonFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Framework\Filesystem\DirectoryList $directoryList,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig,
         \Bydn\VirtualMirror\Model\Gemini\Api $geminiApi
     ) {
         $this->request = $request;
         $this->jsonFactory = $jsonFactory;
+        $this->productRepository = $productRepository;
+        $this->directoryList = $directoryList;
+        $this->storeManager = $storeManager;
+        $this->virtualMirrorConfig = $virtualMirrorConfig;
         $this->geminiApi = $geminiApi;
     }
 
@@ -42,8 +74,58 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
      */
     public function execute()
     {
-        $this->geminiApi->generate();
+        // Get images
+        $customerImage = $this->getCustomerImage();
+        $productImage = $this->getProductBaseImage();
+
+        // Generate the new image
+        $newImagePath = $this->geminiApi->generate($customerImage, $productImage);
+
+        // Create the response
         $result = $this->jsonFactory->create();
-        return $result->setData(['success' => true]);
+        return $result->setData([
+            'success' => true,
+            'url' => $this->getBaseMediaUrl() . $newImagePath
+        ]);
+    }
+
+    /**
+     * Returns the absolute path of a user image
+     */
+    private function getCustomerImage()
+    {
+        return '/Users/danielnavarro/Sites/magento248/src/pub/media/virtualmirror/customers/dani.png';
+    }
+
+    /**
+    * Get base image absolute path of current product
+    *
+    * @return string|null
+    */
+    private function getProductBaseImage()
+    {
+        return $this->directoryList->getPath('media') . '/catalog/product' . $this->getCurrentProduct()->getImage();
+    }
+
+    /**
+    * Get product by ID from request
+    *
+    * @return \Magento\Catalog\Api\Data\ProductInterface
+    * @throws \Magento\Framework\Exception\NoSuchEntityException
+    */
+    private function getCurrentProduct()
+    {
+        $productId = (int) $this->request->getParam('product_id');
+        return $this->productRepository->getById($productId);
+    }
+
+    /**
+     * Returns the base URL of the media folder
+     */
+    private function getBaseMediaUrl()
+    {
+        return $this->storeManager
+            ->getStore()
+            ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
     }
 }

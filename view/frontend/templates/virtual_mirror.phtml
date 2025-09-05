@@ -13,8 +13,47 @@
         "#virtual-mirror-anchor": {
             "virtualMirrorProductAlert": {
                 "buttonSelector": "#call-mirror-method",
-                "generateImageEndpoint": "<?php echo $block->getUrl('virtualmirror/generateimage/index'); ?>"
+                "generateImageEndpoint": "<?php echo $block->getImageGenerationEndpoint(); ?>",
+                "productId": "<?php echo $block->getProductId(); ?>"
             }
         }
     }
 </script>
+<style>
+    /* Virtual Mirror Modal Styles */
+    .virtual-mirror-modal {
+        max-width: 800px;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .virtual-mirror-modal .modal-inner-wrap {
+        max-width: 800px;
+        position: relative;
+        margin: 0;
+        transform: none;
+    }
+    
+    .virtual-mirror-modal .modal-content {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .virtual-mirror-modal .modal-header {
+        padding: 2.4rem 2.4rem 0;
+    }
+    
+    .virtual-mirror-modal .modal-footer {
+        padding: 2.4rem;
+        text-align: right;
+    }
+    
+    .virtual-mirror-modal img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+</style>
