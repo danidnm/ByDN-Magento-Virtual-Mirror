@@ -36,6 +36,16 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
     private \Magento\Store\Model\StoreManagerInterface $storeManager;
 
     /**
+     * @var \Magento\Framework\Filesystem
+     */
+    private \Magento\Framework\Filesystem $filesystem;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    private \Magento\Customer\Model\Session $customerSession;
+
+    /**
      * @var \Bydn\VirtualMirror\Model\Gemini\Api
      */
     private \Bydn\VirtualMirror\Model\Gemini\Api $geminiApi;
@@ -47,6 +57,8 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
      * @param \Magento\Framework\Filesystem\DirectoryList $directoryList
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Bydn\VirtualMirror\Helper\Config $config
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Bydn\VirtualMirror\Model\Gemini\Api $gemini
      */
     public function __construct(
@@ -56,6 +68,8 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\Filesystem $filesystem,
         \Bydn\VirtualMirror\Model\Gemini\Api $geminiApi
     ) {
         $this->request = $request;
@@ -64,6 +78,8 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
         $this->directoryList = $directoryList;
         $this->storeManager = $storeManager;
         $this->virtualMirrorConfig = $virtualMirrorConfig;
+        $this->customerSession = $customerSession;
+        $this->filesystem = $filesystem;
         $this->geminiApi = $geminiApi;
     }
 
@@ -94,7 +110,10 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
      */
     private function getCustomerImage()
     {
-        return '/Users/danielnavarro/Sites/magento248/src/pub/media/virtualmirror/customers/dani.png';
+        //$mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
+        //$mediaAbsolutePath = $mediaDirectory->getAbsolutePath();
+        return $this->directoryList->getPath('media') . '/avatars/' . $this->customerSession->getCustomer()->getCustomerAvatar();
+        //return '/Users/danielnavarro/Sites/magento248/src/pub/media/virtualmirror/customers/dani.png';
     }
 
     /**
