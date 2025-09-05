@@ -61,7 +61,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
      */
     function generate($customerImage, $productImage): string
     {
-        //return 'virtualmirror/customers/dani.png'; // Temporary line for testing without calling the API
+        return 'virtualmirror/customers/dani.png'; // Temporary line for testing without calling the API
 
         // Model to be used and api key
         $model = 'gemini-2.5-flash-image-preview';

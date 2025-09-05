@@ -8,6 +8,19 @@
         <span>Try on me</span>
     </button>
 </div>
+
+<!-- Pre-created modal -->
+<div id="virtual-mirror-modal" style="display: none;">
+    <div class="virtual-mirror-content">
+        <div class="loading-message">
+            <?= __('Generating your virtual mirror image... Please wait, this can take up to 10 seconds...') ?>
+        </div>
+        <div class="error-message" style="display: none;">
+            <?= __('Sorry, there was an error generating your image. Please try again.') ?>
+        </div>
+        <div class="virtual-mirror-image-container"></div>
+    </div>
+</div>
 <script type="text/x-magento-init">
     {
         "#virtual-mirror-anchor": {
@@ -46,6 +59,24 @@
     
     .virtual-mirror-modal .modal-header {
         padding: 2.4rem 2.4rem 0;
+    }
+
+    .virtual-mirror-modal .loading-message,
+    .virtual-mirror-modal .error-message {
+        text-align: center;
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .virtual-mirror-modal .error-message {
+        color: #e02b27;
+    }
+
+    .virtual-mirror-modal .virtual-mirror-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 200px;
     }
     
     .virtual-mirror-modal .modal-footer {
