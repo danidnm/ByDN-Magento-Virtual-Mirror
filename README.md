@@ -19,7 +19,7 @@ No hype: it’s not the Matrix, but it’s a cool extra to improve your online s
 
 ```bash
 composer require bydn/virtualmirror
-bin/magento module:enable ByDN_VirtualMirror
+bin/magento module:enable Bydn_VirtualMirror
 bin/magento setup:upgrade
 bin/magento cache:flush
 ```
