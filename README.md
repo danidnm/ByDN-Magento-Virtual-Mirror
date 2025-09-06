@@ -1,4 +1,4 @@
-# ByDN Magento Virtual Mirror
+# ByDN Virtual Try On free Extension for Magento powered by Nano Banana
 
 Because your customers don’t just want to see themselves in the fitting room… they also want to see themselves on the screen.
 
