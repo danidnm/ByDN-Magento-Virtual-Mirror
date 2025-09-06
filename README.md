@@ -36,9 +36,16 @@ In the PHP (Api.php) you’ll find where the image magic happens.
 
 ## 🧪 Usage
 
-In your user account, upload your photo under Account Information.
-Go to a product page.
-Click on “Try on me.”
+1. In your user account, upload your photo under Account Information.
+
+![Screenshot](docs/account-1.png)
+
+2. Go to a product page.
+3. Click on “Try on me.”
+4. Enjoy
+
+![Screenshot](docs/photo-1.png)
+![Screenshot](docs/photo-1.png)
 
 ## 🛠️ Requirements
 
