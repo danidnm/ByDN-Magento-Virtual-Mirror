@@ -2,6 +2,14 @@
 
 Because your customers don’t just want to see themselves in the fitting room… they also want to see themselves on the screen.
 
+### IMPORTANT: This extension is still under development. Current limitations include:
+
+- No full support for configurable products (only the main image is supported).
+- Very few configuration options: the button will either be shown on all products or on none (you cannot choose where it will appear).
+- The prompt used is hardcoded 😬
+- The API class still needs some refactoring.
+- You’ll also need this other extension 👉 https://github.com/danidnm/ByDN-Magento-Customer-Avatar (yep, that one’s mine too).
+
 ## 🤔 What is this?
 
 A module for Magento 2.4+ that adds a magic button to the product page and lets the user “try on” the item in their own photo.
