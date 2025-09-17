@@ -5,9 +5,6 @@ Because your customers don’t just want to see themselves in the fitting room�
 ### IMPORTANT: This extension is still under development. Current limitations include:
 
 - No full support for configurable products (only works with the default selection).
-- Very few configuration options: the button will either be shown on all products or on none (you cannot choose where it will appear).
-- The prompt used is hardcoded 😬
-- The API class still needs some refactoring.
 - You’ll also need this other extension 👉 https://github.com/danidnm/ByDN-Magento-Customer-Avatar (yep, that one’s mine too).
 
 ## 🤔 What is this?
