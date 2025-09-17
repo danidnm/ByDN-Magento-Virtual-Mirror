@@ -19,6 +19,10 @@
                     <label>AI Model</label>
                     <source_model>Bydn\VirtualMirror\Model\Source\Model</source_model>
                 </field>
+                <field id="prompt" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Default prompt</label>
+                    <comment>Default prompt (can be overriden for a particular model or product)</comment>
+                </field>
             </group>
             <group id="nano_banana" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Model Configuration</label>
@@ -28,7 +32,15 @@
                         <field id="enable">1</field>
                         <field id="model">gemini_nano_banana</field>
                     </depends>
-                    <comment>Introduce the API key for Nano Banana</comment>
+                    <comment>Paste your Nano Banana API key here</comment>
+                </field>
+            </group>
+            <group id="prompt_by_set" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Specific prompts</label>
+                <field id="prompts" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <frontend_model>Bydn\VirtualMirror\Block\Adminhtml\Config\Field\Prompts</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>Create unique prompts for each attribute set — e.g., different ones for tops, bags, shoes, etc.</comment>
                 </field>
             </group>
         </section>

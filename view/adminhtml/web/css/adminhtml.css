@@ -1,0 +1,16 @@
+#row_bydn_virtualmirror_prompt_by_set_prompts .label {
+    display: none;
+}
+
+#row_bydn_virtualmirror_prompt_by_set_prompts .value {
+    width: 100%;
+}
+
+#row_bydn_virtualmirror_prompt_by_set_prompts .value th:first-child {
+    width: 15%;
+}
+
+#row_bydn_virtualmirror_prompt_by_set_prompts .value th:last-child {
+    width: 5%;
+    min-width: 50px;
+}
