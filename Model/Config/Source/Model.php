@@ -1,6 +1,6 @@
 <?php
 
-namespace Bydn\VirtualMirror\Model\Source;
+namespace Bydn\VirtualMirror\Model\Config\Source;
 
 class Model implements \Magento\Framework\Option\ArrayInterface
 {

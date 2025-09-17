@@ -15,9 +15,14 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Disables the module</comment>
                 </field>
+                <field id="attribute_sets_enable" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable for Attribute Sets</label>
+                    <comment>Select the attribute sets where Virtual Try-On will be active (left blank for all).</comment>
+                    <source_model>Bydn\VirtualMirror\Model\Config\Source\AttributeSets</source_model>
+                </field>
                 <field id="model" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>AI Model</label>
-                    <source_model>Bydn\VirtualMirror\Model\Source\Model</source_model>
+                    <source_model>Bydn\VirtualMirror\Model\Config\Source\Model</source_model>
                 </field>
                 <field id="prompt" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Default prompt</label>
@@ -38,6 +43,7 @@
             <group id="prompt_by_set" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Specific prompts</label>
                 <field id="prompts" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Prompts by attribute set</label>
                     <frontend_model>Bydn\VirtualMirror\Block\Adminhtml\Config\Field\Prompts</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                     <comment>Create unique prompts for each attribute set — e.g., different ones for tops, bags, shoes, etc.</comment>

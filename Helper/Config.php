@@ -8,6 +8,8 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
 
     private const PATH_VIRTUAL_MIRROR_ENABLED = 'bydn_virtualmirror/general/enable';
     private const PATH_VIRTUAL_MIRROR_MODEL = 'bydn_virtualmirror/general/model';
+    private const PATH_VIRTUAL_MIRROR_SETS = 'bydn_virtualmirror/general/sets';
+    private const PATH_VIRTUAL_MIRROR_PROMPTS = 'bydn_virtualmirror/prompt_by_set/prompts';
 
     private const PATH_VIRTUAL_MIRROR_API_KEY_LEGACY = 'bydn_virtualmirror/general/api_key';
 
