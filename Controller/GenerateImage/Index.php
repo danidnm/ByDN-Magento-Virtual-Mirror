@@ -90,12 +90,15 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
      */
     public function execute()
     {
+        // Get prompt
+        $prompt = $this->getPrompt();
+
         // Get images
         $customerImage = $this->getCustomerImage();
         $productImage = $this->getProductBaseImage();
 
         // Generate the new image
-        $newImagePath = $this->geminiApi->generate($customerImage, $productImage);
+        $newImagePath = $this->geminiApi->generate($prompt, $customerImage, $productImage);
 
         // Create the response
         $result = $this->jsonFactory->create();
@@ -103,6 +106,16 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
             'success' => true,
             'url' => $this->getBaseMediaUrl() . $newImagePath
         ]);
+    }
+
+    /**
+     * Returns the prompt to be used
+     */
+    private function getPrompt()
+    {
+        $product = $this->getCurrentProduct();
+        $attributeSetId = $product->getAttributeSetId();
+        return $this->virtualMirrorConfig->getPrompt($attributeSetId);
     }
 
     /**

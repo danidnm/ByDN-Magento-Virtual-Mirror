@@ -64,7 +64,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
      * Generates content (text and images) from the Gemini API using a streaming request.
      * @return string The relative path of the generated image file
      */
-    function generate($customerImage, $productImage): string
+    function generate($prompt, $customerImage, $productImage): string
     {
         // Model to be used and api key
         $model = self::MODEL;
@@ -81,7 +81,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
         try {
             $response = $this->makeCall(
                 $url, 
-                $this->getPayload($customerImage, $productImage)
+                $this->getPayload($prompt, $customerImage, $productImage)
             );
         } catch (\JsonException $e) {
             throw new \Magento\Framework\Exception\LocalizedException(__('Invalid JSON response from API'));
@@ -121,7 +121,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
     /**
      * Returns the payload for the Gemini API request.
      */
-    private function getPayload($customerImage, $productImage)
+    private function getPayload($prompt, $customerImage, $productImage)
     {
         // Get image data
         $customerImage = $this->getImageData($customerImage);
@@ -133,7 +133,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     'role' => 'user',
                     'parts' => [
                         [
-                            'text' => 'Modify the first image to make the person in it to wear the garment of the person in the second image.'
+                            'text' => $prompt
                         ],
                         [
                             'inlineData' => [

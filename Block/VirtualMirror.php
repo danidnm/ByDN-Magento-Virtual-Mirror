@@ -20,6 +20,11 @@ class VirtualMirror extends \Magento\Framework\View\Element\Template
     private \Magento\Customer\Model\Session $customerSession;
 
     /**
+     * @var \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig 
+     */
+    private \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig;
+
+    /**
      * Class constructor
      * 
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -34,11 +39,13 @@ class VirtualMirror extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
+        \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig,
         array $data = []
     ) {
         $this->registry = $registry;
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
+        $this->virtualMirrorConfig = $virtualMirrorConfig;
         parent::__construct($context, $data);
     }
 
@@ -47,7 +54,28 @@ class VirtualMirror extends \Magento\Framework\View\Element\Template
      */
     public function isVisible()
     {
-        return $this->customerSession->isLoggedIn();
+        // Check module enable
+        if (!$this->virtualMirrorConfig->isEnabled()) {
+            return false;
+        }
+
+        // No customer. Not visible.
+        if (!$this->customerSession->isLoggedIn()) {
+            return false;
+        }
+
+        // Not available on bundle, virtual or downloadable products
+        if (!in_array($this->getCurrentProduct()->getTypeId(), array('simple', 'configurable'))) {
+            return false;
+        }
+
+        // Check enable for attribute set on current product
+        $attributeSetId = $this->getCurrentProduct()->getAttributeSetId();
+        if (!$this->virtualMirrorConfig->isEnabledForSet($attributeSetId)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

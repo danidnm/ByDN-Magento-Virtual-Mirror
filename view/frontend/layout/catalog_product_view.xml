@@ -5,9 +5,17 @@
         <css src="Bydn_VirtualMirror::css/virtual-mirror.css"/>
     </head>
     <body>
+        <referenceBlock name="product.info.addtocart">
+            <block class="Bydn\virtualMirror\Block\VirtualMirror"
+                   name="product.info.addtocart.additional.virtual.mirror.simples"
+                   template="Bydn_VirtualMirror::virtual_mirror.phtml"
+                   ifconfig="bydn_virtualmirror/general/enable"
+                   before="-"
+                    />
+        </referenceBlock>
         <referenceBlock name="product.info.addtocart.additional">
             <block class="Bydn\virtualMirror\Block\VirtualMirror"
-                   name="product.info.addtocart.additional.virtual.mirror"
+                   name="product.info.addtocart.additional.virtual.mirror.configs"
                    template="Bydn_VirtualMirror::virtual_mirror.phtml"
                    ifconfig="bydn_virtualmirror/general/enable"
                    before="-"
