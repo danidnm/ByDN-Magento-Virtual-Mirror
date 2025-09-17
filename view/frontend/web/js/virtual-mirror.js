@@ -53,12 +53,21 @@ define([
             // Show modal immediately
             self.modal.modal('openModal');
             
+            // If in a configurable page, use selected simple if any (and if configured)
+            let productId = self.options.productId;
+            if (self.options.use_simple) {
+                const simpleId = $('[data-role=swatch-options]').data('mage-SwatchRenderer').getProduct();
+                if (simpleId) {
+                    productId = simpleId;
+                }
+            }
+
             $.ajax({
                 url: self.options.generateImageEndpoint,
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    product_id: self.options.productId
+                    product_id: productId
                 },
                 success: function(response) {
                     if (response.success) {

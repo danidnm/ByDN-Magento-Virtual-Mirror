@@ -10,6 +10,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     private const PATH_VIRTUAL_MIRROR_SETS_ENABLE = 'bydn_virtualmirror/general/attribute_sets_enable';
     private const PATH_VIRTUAL_MIRROR_MODEL = 'bydn_virtualmirror/general/model';
     private const PATH_VIRTUAL_MIRROR_DEFAULT_PROMPT = 'bydn_virtualmirror/general/prompt';
+    private const PATH_VIRTUAL_MIRROR_USE_SIMPLE = 'bydn_virtualmirror/general/use_simple';
 
     private const PATH_VIRTUAL_MIRROR_PROMPTS_BY_SET = 'bydn_virtualmirror/prompt_by_set/prompts';
 
@@ -69,6 +70,21 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     {
         return $this->scopeConfig->getValue(
             self::PATH_VIRTUAL_MIRROR_MODEL,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Returns if simple selected should be used in configurable products
+     *
+     * @param null|int|string $storeId
+     * @return mixed
+     */
+    public function getUseSimple($storeId = null)
+    {
+        return $this->scopeConfig->getValue(
+            self::PATH_VIRTUAL_MIRROR_USE_SIMPLE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );

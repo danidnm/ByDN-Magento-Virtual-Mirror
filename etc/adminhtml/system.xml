@@ -28,6 +28,11 @@
                     <label>Default prompt</label>
                     <comment>Default prompt (can be overriden for a particular model or product)</comment>
                 </field>
+                <field id="use_simple" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Use selected simple</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When enabled, the selected variant image is used; otherwise, the configurable (parent) product main image is used</comment>
+                </field>
             </group>
             <group id="nano_banana" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Model Configuration</label>

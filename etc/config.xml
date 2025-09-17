@@ -6,6 +6,7 @@
                 <enable>0</enable>
                 <model>nano_banana</model>
                 <prompt>Modify the first image to make the person in it to wear the garment of the person in the second image.</prompt>
+                <use_simple>0</use_simple>
             </general>
         </bydn_virtualmirror>
     </default>

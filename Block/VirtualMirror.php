@@ -65,7 +65,14 @@ class VirtualMirror extends \Magento\Framework\View\Element\Template
         }
 
         // Not available on bundle, virtual or downloadable products
-        if (!in_array($this->getCurrentProduct()->getTypeId(), array('simple', 'configurable'))) {
+        if (!in_array(
+                $this->getCurrentProduct()->getTypeId(), 
+                array(
+                    \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 
+                    \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
+                )
+            )
+        ) {
             return false;
         }
 
@@ -92,6 +99,16 @@ class VirtualMirror extends \Magento\Framework\View\Element\Template
     public function getProductId()
     {
         return $this->getCurrentProduct()->getId();
+    }
+
+    /**
+     * Return if simple 
+     */
+    public function getUseSimpleSelected()
+    {
+        $productType = $this->getCurrentProduct()->getTypeId();
+        $useSimple = $this->virtualMirrorConfig->getUseSimple();
+        return (($productType == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) && $useSimple);
     }
 
     /**
