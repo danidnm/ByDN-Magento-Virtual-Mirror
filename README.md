@@ -2,11 +2,6 @@
 
 Because your customers don’t just want to see themselves in the fitting room… they also want to see themselves on the screen.
 
-### IMPORTANT: This extension is still under development. Current limitations include:
-
-- No full support for configurable products (only works with the default selection).
-- You’ll also need this other extension 👉 https://github.com/danidnm/ByDN-Magento-Customer-Avatar (yep, that one’s mine too).
-
 ## 🤔 What is this?
 
 A module for Magento 2.4+ that adds a magic button to the product page and lets the user “try on” the item in their own photo.
@@ -42,7 +37,7 @@ In the PHP (Api.php) you’ll find where the image magic happens.
 4. Enjoy
 
 ![Screenshot](docs/photo-1.png)
-![Screenshot](docs/photo-1.png)
+![Screenshot](docs/photo-2.png)
 
 ## 🛠️ Requirements
 
