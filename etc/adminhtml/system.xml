@@ -4,21 +4,29 @@
         <tab id="bydn_ai" translate="label" sortOrder="2500">
             <label>AI Extensions (by DN)</label>
         </tab>
-        <section id="bydn_virtualmirror" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
-            <label>Virtual Mirror configuration</label>
+        <section id="bydn_virtualmirror" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Virtual Mirror</label>
             <tab>bydn_ai</tab>
             <resource>Bydn_VirtualMirror::config</resource>
-            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>General Configuration</label>
-                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Virtual Mirror</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Disables the module</comment>
                 </field>
-                <field id="api_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="model" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>AI Model</label>
+                    <source_model>Bydn\VirtualMirror\Model\Source\Model</source_model>
+                </field>
+            </group>
+            <group id="nano_banana" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Model Configuration</label>
+                <field id="api_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>API Key</label>
                     <depends>
                         <field id="enable">1</field>
+                        <field id="model">gemini_nano_banana</field>
                     </depends>
                     <comment>Introduce the API key for Nano Banana</comment>
                 </field>

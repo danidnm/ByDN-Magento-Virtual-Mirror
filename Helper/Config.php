@@ -4,8 +4,12 @@ namespace Bydn\VirtualMirror\Helper;
 
 class Config extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    private const PATH_VIRTUAL_MIRROR_BASE_CONFIG_PATH = 'bydn_virtualmirror/';
+
     private const PATH_VIRTUAL_MIRROR_ENABLED = 'bydn_virtualmirror/general/enable';
-    private const PATH_VIRTUAL_MIRROR_API_KEY = 'bydn_virtualmirror/general/api_key';
+    private const PATH_VIRTUAL_MIRROR_MODEL = 'bydn_virtualmirror/general/model';
+
+    private const PATH_VIRTUAL_MIRROR_API_KEY_LEGACY = 'bydn_virtualmirror/general/api_key';
 
     /**
      * Class constructor
@@ -34,6 +38,48 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * Returns the selected model
+     *
+     * @param null|int|string $storeId
+     * @return mixed
+     */
+    public function getModel($storeId = null)
+    {
+        return $this->scopeConfig->getValue(
+            self::PATH_VIRTUAL_MIRROR_MODEL,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Returns the selected model configuration
+     *
+     * @param null|int|string $storeId
+     * @return mixed
+     */
+    public function getModelConfig($storeId = null)
+    {
+        $model = $this->getModel();
+        $groupConfigPath = self::PATH_VIRTUAL_MIRROR_BASE_CONFIG_PATH . $model = $this->getModel();
+        $groupConfig = $this->scopeConfig->getValue(
+            $groupConfigPath,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        // This is for legacy compatibility with first module version
+        if (
+            $model === \Bydn\VirtualMirror\Model\Source\Model::GEMINI_NANO_BANANA && 
+            empty($groupConfig['api_key'])
+            ) {
+            $groupConfig['api_key'] = $this->getApiKey();
+        }
+
+        return $groupConfig;
+    }
+
+    /**
      * Returns the API key
      *
      * @param null|int|string $storeId
@@ -42,7 +88,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     public function getApiKey($storeId = null)
     {
         return $this->scopeConfig->getValue(
-            self::PATH_VIRTUAL_MIRROR_API_KEY,
+            self::PATH_VIRTUAL_MIRROR_API_KEY_LEGACY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );

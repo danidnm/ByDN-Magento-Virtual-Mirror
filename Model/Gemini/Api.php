@@ -5,6 +5,11 @@ namespace Bydn\VirtualMirror\Model\Gemini;
 class Api extends \Magento\Framework\Model\AbstractModel
 {
     /**
+     * Model name in the API
+     */
+    const MODEL = 'gemini-2.5-flash-image-preview';
+
+    /**
      * @var \Bydn\VirtualMirror\Helper\Config
      */
     protected \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig;
@@ -61,11 +66,10 @@ class Api extends \Magento\Framework\Model\AbstractModel
      */
     function generate($customerImage, $productImage): string
     {
-        return 'virtualmirror/customers/dani.png'; // Temporary line for testing without calling the API
-
         // Model to be used and api key
-        $model = 'gemini-2.5-flash-image-preview';
-        $apiKey = $this->virtualMirrorConfig->getApiKey();
+        $model = self::MODEL;
+        $modelConfig = $this->virtualMirrorConfig->getModelConfig();
+        $apiKey = $modelConfig['api_key'];
         if (!$apiKey) {
             throw new \Magento\Framework\Exception\LocalizedException(__("Error: GEMINI_API_KEY not set."));
         }
@@ -122,10 +126,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
         // Get image data
         $customerImage = $this->getImageData($customerImage);
         $productImage = $this->getImageData($productImage);
-        //$customerImage = $this->getImageData('/Users/danielnavarro/Downloads/dani.png');
-        //$productImage = $this->getImageData('/Users/danielnavarro/Downloads/camiseta-2.png');
-        //$productImage = $this->getImageData("/Users/danielnavarro/Sites/magento248/src/pub/media/catalog/product/m/h/mh04-green_main_1.png");
-
+     
         return [
             'contents' => [
                 [
