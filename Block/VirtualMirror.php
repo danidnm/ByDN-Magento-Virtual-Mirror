@@ -15,22 +15,39 @@ class VirtualMirror extends \Magento\Framework\View\Element\Template
     private \Magento\Store\Model\StoreManagerInterface $storeManager;
 
     /**
+     * \Magento\Customer\Model\Session $customerSession
+     */
+    private \Magento\Customer\Model\Session $customerSession;
+
+    /**
      * Class constructor
      * 
-     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      * @return void
     */
     public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = []
     ) {
         $this->registry = $registry;
         $this->storeManager = $storeManager;
+        $this->customerSession = $customerSession;
         parent::__construct($context, $data);
+    }
+
+    /**
+     * Block is only visible if customer is logged in
+     */
+    public function isVisible()
+    {
+        return $this->customerSession->isLoggedIn();
     }
 
     /**
