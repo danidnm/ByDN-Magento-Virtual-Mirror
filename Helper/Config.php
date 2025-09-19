@@ -146,7 +146,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
 
         // This is for legacy compatibility with first module version
         if (
-            $model === \Bydn\VirtualMirror\Model\Config\Source\Model::GEMINI_NANO_BANANA && 
+            $model === \Bydn\VirtualMirror\Model\Config\Source\Model::GOOGLE_NANO_BANANA && 
             empty($groupConfig['api_key'])
             ) {
             $groupConfig['api_key'] = $this->getApiKey();

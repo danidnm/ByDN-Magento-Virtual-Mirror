@@ -35,14 +35,17 @@
                 </field>
             </group>
             <group id="nano_banana" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
-                <label>Model Configuration</label>
+                <label>Nano Banana</label>
                 <field id="api_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>API Key</label>
-                    <depends>
-                        <field id="enable">1</field>
-                        <field id="model">gemini_nano_banana</field>
-                    </depends>
+                    <label>Nano Banana API Key</label>
                     <comment>Paste your Nano Banana API key here</comment>
+                </field>
+            </group>
+            <group id="see_dream" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>See Dream Configuration</label>
+                <field id="api_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>See Dream API Key</label>
+                    <comment>Paste your See Dream API key here</comment>
                 </field>
             </group>
             <group id="prompt_by_set" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">

@@ -13,7 +13,8 @@ namespace Bydn\VirtualMirror\Model\Config\Source;
 
 class Model implements \Magento\Framework\Option\ArrayInterface
 {
-    const GEMINI_NANO_BANANA = 'nano_banana';
+    const GOOGLE_NANO_BANANA = 'nano_banana';
+    const BYTEDANCE_SEE_DREAM = 'see_dream';
 
     /**
      * @return array
@@ -26,8 +27,12 @@ class Model implements \Magento\Framework\Option\ArrayInterface
                 'value' => 'not_configured'
             ],
             [
-                'label' => __('Gemini Nano Banana'),
-                'value' => self::GEMINI_NANO_BANANA
+                'label' => __('Google Nano Banana'),
+                'value' => self::GOOGLE_NANO_BANANA
+            ],
+            [
+                'label' => __('See Dream'),
+                'value' => self::BYTEDANCE_SEE_DREAM
             ]
         ];
 

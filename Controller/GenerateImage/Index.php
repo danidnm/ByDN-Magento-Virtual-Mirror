@@ -134,10 +134,7 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
      */
     private function getCustomerImage()
     {
-        //$mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
-        //$mediaAbsolutePath = $mediaDirectory->getAbsolutePath();
         return $this->directoryList->getPath('media') . '/avatars/' . $this->customerSession->getCustomer()->getCustomerAvatar();
-        //return '/Users/danielnavarro/Sites/magento248/src/pub/media/virtualmirror/customers/dani.png';
     }
 
     /**

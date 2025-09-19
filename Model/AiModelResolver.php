@@ -15,14 +15,21 @@ class AiModelResolver
     private \Bydn\VirtualMirror\Model\Google\NanoBananaFactory $nanoBananaFactory;
 
     /**
+     * @var \Bydn\VirtualMirror\Model\ByteDance\SeeDreamFactory
+     */
+    private \Bydn\VirtualMirror\Model\ByteDance\SeeDreamFactory $seeDreamFactory;
+
+    /**
      * @param \Bydn\VirtualMirror\Model\Gemini\Api $gemini
      */
     public function __construct(
         \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig,
-        \Bydn\VirtualMirror\Model\Google\NanoBananaFactory $nanoBananaFactory
+        \Bydn\VirtualMirror\Model\Google\NanoBananaFactory $nanoBananaFactory,
+        \Bydn\VirtualMirror\Model\ByteDance\SeeDreamFactory $seeDreamFactory
     ) {
         $this->virtualMirrorConfig = $virtualMirrorConfig;
         $this->nanoBananaFactory = $nanoBananaFactory;
+        $this->seeDreamFactory = $seeDreamFactory;
     }
 
     /**
@@ -30,6 +37,11 @@ class AiModelResolver
      */
     public function getAiModel()
     {
-        return $this->nanoBananaFactory->create();
+        if ($this->virtualMirrorConfig->getModel() == \Bydn\VirtualMirror\Model\Config\Source\Model::BYTEDANCE_SEE_DREAM) {
+            return $this->seeDreamFactory->create();
+        }
+        else {
+            return $this->nanoBananaFactory->create();
+        }
     }
 }
