@@ -9,14 +9,14 @@
  * GNU General Public License v3.0.
  * You may redistribute and/or modify it under the same license.
  */
-namespace Bydn\VirtualMirror\Model\Gemini;
+namespace Bydn\VirtualMirror\Model\Google;
 
-class Api extends \Magento\Framework\Model\AbstractModel
+class NanoBanana extends \Bydn\VirtualMirror\Model\AiModelBase
 {
     /**
      * Model name in the API
      */
-    const MODEL = 'gemini-2.5-flash-image-preview';
+    protected const MODEL = 'gemini-2.5-flash-image-preview';
 
     /**
      * @var \Bydn\VirtualMirror\Helper\Config
@@ -70,7 +70,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Generates content (text and images) from the Gemini API using a streaming request.
+     * Generates content (text and images) from the Nano Banana API using a streaming request.
      * @return string The relative path of the generated image file
      */
     function generate($prompt, $customerImage, $productImage): string
@@ -128,7 +128,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Returns the payload for the Gemini API request.
+     * Returns the payload for the Nano Banna API request.
      */
     private function getPayload($prompt, $customerImage, $productImage)
     {

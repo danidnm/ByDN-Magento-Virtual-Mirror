@@ -54,9 +54,9 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
     private \Magento\Customer\Model\Session $customerSession;
 
     /**
-     * @var \Bydn\VirtualMirror\Model\Gemini\Api
+     * @var \Bydn\VirtualMirror\Model\AiModelResolver
      */
-    private \Bydn\VirtualMirror\Model\Gemini\Api $geminiApi;
+    private \Bydn\VirtualMirror\Model\AiModelResolver $aiModelResolver;
 
     /**
      * @param \Magento\Framework\App\RequestInterface $request
@@ -67,7 +67,7 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
      * @param \Bydn\VirtualMirror\Helper\Config $config
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Bydn\VirtualMirror\Model\Gemini\Api $gemini
+     * @param \Bydn\VirtualMirror\Model\AiModelResolver $aiModelResolver
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
@@ -78,7 +78,7 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
         \Bydn\VirtualMirror\Helper\Config $virtualMirrorConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Filesystem $filesystem,
-        \Bydn\VirtualMirror\Model\Gemini\Api $geminiApi
+        \Bydn\VirtualMirror\Model\AiModelResolver $aiModelResolver
     ) {
         $this->request = $request;
         $this->jsonFactory = $jsonFactory;
@@ -88,7 +88,7 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
         $this->virtualMirrorConfig = $virtualMirrorConfig;
         $this->customerSession = $customerSession;
         $this->filesystem = $filesystem;
-        $this->geminiApi = $geminiApi;
+        $this->aiModelResolver = $aiModelResolver;
     }
 
     /**
@@ -105,8 +105,11 @@ class Index implements \Magento\Framework\App\Action\HttpPostActionInterface
         $customerImage = $this->getCustomerImage();
         $productImage = $this->getProductBaseImage();
 
+        // Get model to be used
+        $aiModel = $this->aiModelResolver->getAiModel();
+
         // Generate the new image
-        $newImagePath = $this->geminiApi->generate($prompt, $customerImage, $productImage);
+        $newImagePath = $aiModel->generate($prompt, $customerImage, $productImage);
 
         // Create the response
         $result = $this->jsonFactory->create();
