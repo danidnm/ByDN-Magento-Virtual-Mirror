@@ -1,0 +1,26 @@
+<?php
+/** @var \Bydn\VirtualMirror\Block\UserImage $block */
+?>
+<div class="field user-image">
+    <label class="label" for="user-image">
+        <span><?= $block->escapeHtml(__('Profile Picture')) ?></span>
+    </label>
+    <div class="control">
+        <?php if ($block->getUserImageUrl()): ?>
+            <div class="current-image">
+                <img src="<?= $block->escapeUrl($block->getUserImageUrl()) ?>" 
+                     alt="<?= $block->escapeHtml(__('Current Profile Picture')) ?>" 
+                     class="user-image-image" />
+            </div>
+        <?php endif; ?>
+        <input type="file" 
+               name="virtualmirror_user_image_1" 
+               id="virtualmirror-user-image-1" 
+               title="<?= $block->escapeHtmlAttr(__('Profile Picture')) ?>"
+               class="input-file"
+               accept="image/png,image/jpeg,image/jpg" />
+        <div class="field-note">
+            <?= $block->escapeHtml(__('Allowed file types: jpg, jpeg, png')) ?>
+        </div>
+    </div>
+</div>
